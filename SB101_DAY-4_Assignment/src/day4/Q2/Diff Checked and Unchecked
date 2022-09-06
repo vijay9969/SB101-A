@@ -1,0 +1,20 @@
+Q2) Explain the difference between Checked and Unchecked exceptions. write some
+examples of checked and unchecked exception classes.
+=>
+A)Checked:---
+the exception class object for which compiler force you to handle at compile 
+time only is known as checked exception,
+example.
+ClassNotFoundException
+IOException
+SQLException
+FileNotFoundException
+etc.
+B)Unchecked:----
+the exception classes for which compiler will not force to handle (it ignores at compile time) 
+is known as unchecked exception / runtime exceptions
+example:
+NullPointerException
+ArithmaticException
+ClassCasteException
+etc.
