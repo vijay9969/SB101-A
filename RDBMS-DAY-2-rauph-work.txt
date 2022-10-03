@@ -1,0 +1,64 @@
+create table Worker(
+WORKER_ID int PRIMARY KEY,
+FIRST_NAME varchar(25),
+LAST_NAME varchar(25),
+SALARY int,
+JOINING_DATE DATETIME,
+DEPARTMENT varchar(25)
+);
+
+insert into worker values(001, 'Monika', 'Arora', 100000, '14-02-20 09.00.00', 'HR);
+insert into worker values(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin'),
+insert into worker values(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR'),
+insert into worker values(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin');
+insert into worker values(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin');
+insert into worker values(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account');
+insert into worker values(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account');
+insert into worker values(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+
+
+
+create table Bonus(
+WORKER_REF_ID int,
+BONUS_AMOUNT int,
+BONUS_DATE DATETIME,
+FOREIGN KEY (WORKER_REF_ID) REFERENCES Worker(WORKER_ID) ON DELETE CASCADE
+);
+
+insert into Bonus values(001, 5000, '16-02-20');
+insert into Bonus values(002, 3000, '16-06-11');
+insert into Bonus values(003, 4000, '16-02-20');
+insert into Bonus values(001, 4500, '16-02-20');
+insert into Bonus values(002, 3500, '16-06-11');
+
+
+create table Title (
+WORKER_REF_ID INT,
+WORKER_TITLE VARCHAR(25),
+AFFECTED_FROM DATETIME,
+FOREIGN KEY (WORKER_REF_ID) REFERENCES Worker(WORKER_ID) ON DELETE CASCADE
+);
+
+INSERT INTO Title
+(WORKER_REF_ID, WORKER_TITLE, AFFECTED_FROM) VALUES
+
+insert into Title values(001, 'Manager', '2016-02-20 00:00:00');
+insert into Title values(002, 'Executive', '2016-06-11 00:00:00');
+insert into Title values(008, 'Executive', '2016-06-11 00:00:00');
+insert into Title values(005, 'Manager', '2016-06-11 00:00:00');
+insert into Title values(004, 'Asst. Manager', '2016-06-11 00:00:00');
+insert into Title values(007, 'Executive', '2016-06-11 00:00:00');
+insert into Title values(006, 'Lead', '2016-06-11 00:00:00');
+insert into Title values(003, 'Lead', '2016-06-11 00:00:00');
+
+
+select min(SALARY) from (select distinct SALARY from worker order by SALARY desc) where rownum < 3;
+
+select * from worker group by SALARY order by  SALARY desc limit 1,1;
+
+select * from (select FIRST_NAME, WORKER_ID rn, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT from worker order by worker) where  mod (rn, 2) = 0;
+
+select  *  from  worker
+where SALARY in (select SALARY from worker
+group by SALARY
+having count(1)>1);

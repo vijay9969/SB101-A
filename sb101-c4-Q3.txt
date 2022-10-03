@@ -1,0 +1,94 @@
+Q3/- How many types of relationships exist among tables in the
+Database? Explain with some examples, and also mention how to
+establish these relationships among tables with examples.
+
+=>
+there are three relationship exist in the tavbles.
+1>one-to-one:--
+in one-to-one relationship you can add id or values are always unique;
+create table Demo1(
+d1id int primary key,
+d1name varchar(15)
+);
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| d1id   | int         | NO   | PRI | NULL    |       |
+| d1name | varchar(15) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+create table Demo2(
+d2id int primary key,
+d2name varchar(15),
+d2d1id int unique,
+foreign key (d2d1id) references Demo1(d1id)
+);
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| d2id   | int         | NO   | PRI | NULL    |       |
+| d2name | varchar(15) | YES  |     | NULL    |       |
+| d2d1id | int         | YES  | UNI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+This is One-to-One relationship.
+
+
+2>One-to-Many:-
+in one-to-Many you not set value as unique.
+eg.
+create table Demo3(
+d1id int primary key,
+d1name varchar(15)
+);
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| d1id   | int         | NO   | PRI | NULL    |       |
+| d1name | varchar(15) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+create table Demo4(
+d2id int primary key,
+d2name varchar(15),
+d2d1id int,
+foreign key (d2d1id) references Demo1(d1id)
+);
+
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| d2id   | int         | NO   | PRI | NULL    |       |
+| d2name | varchar(15) | YES  |     | NULL    |       |
+| d2d1id | int         | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+This is One-to-Many relationship.
+
+
+
+3>Many-to-Many:--
+
+int this relationship you need to create third table,
+in this table you add only to field that is similar in both of tables
+
+eg.
+
+create table Demo5(
+d1id int primary key,
+d1name varchar(15)
+);
+
+create table Demo6(
+d2id int primary key,
+d2name varchar(15),
+d2d1id int
+);
+
+create table super(
+d1id int,
+d2d1id int,
+foreign key (d1id) references Demo5(d1id),
+foreign key (d2d1id) references Demo6(d2d1id)
+);
+
+This is Many-to-Many relationship.
+ 

@@ -1,0 +1,136 @@
+create database sb101c4;
+
+use sb101c4;
+
+create table Student(
+roll int primary key,
+name varchar(12) NOT NULL,
+address varchar(12) NOT NULL,
+mobile varchar(10) NOT NULL
+);
+
+mysql> desc Student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll    | int         | NO   | PRI | NULL    |       |
+| name    | varchar(12) | NO   |     | NULL    |       |
+| address | varchar(12) | NO   |     | NULL    |       |
+| mobile  | varchar(10) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.03 sec)
+
+create table Course(
+cid int primary key,
+cname varchar(12) not null,
+fee int not null,
+duration varchar(12) not null
+);
+
+mysql> desc Course;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cid      | int         | NO   | PRI | NULL    |       |
+| cname    | varchar(12) | NO   |     | NULL    |       |
+| fee      | int         | NO   |     | NULL    |       |
+| duration | varchar(12) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+:---Establish Many-to-Many relationships between the Student and the Course
+table.
+
+create table Student_Course(
+roll int,
+cid int,
+foreign key (roll) references Student(roll),
+foreign key (cid) references Course(cid)
+);
+
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc Student_Course;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| roll  | int  | YES  | MUL | NULL    |       |
+| cid   | int  | YES  | MUL | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+mysql> select * from Student;
++------+--------+-----------+------------+
+| roll | name   | address   | mobile     |
++------+--------+-----------+------------+
+|    1 | Venkat | Delhi     | 9999999999 |
+|    2 | Amit   | Mumbai    | 0000000000 |
+|    3 | Raj    | Pune      | 7777777777 |
+|    4 | Binay  | Chennai   | 6666666666 |
+|    5 | Suresh | Bangalore | 5555555555 |
++------+--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Course;
++------+-----------+-------+----------+
+| cid  | cname     | fee   | duration |
++------+-----------+-------+----------+
+| 1001 | Java      | 10000 | 10       |
+| 1002 | Spring    | 12000 | 12       |
+| 1003 | Hibernate | 15000 | 5        |
+| 1004 | React     | 20000 | 9        |
+| 1005 | Angular   | 14000 | 8        |
++------+-----------+-------+----------+
+5 rows in set (0.00 sec)
+
+:--Write a SQL to enroll Amit in Java and Spring.
+
+insert into Student_Course values(2,1001);
+insert into Student_Course values(2,1002);
+
+:--Write a SQL to enroll Venkat in Java and React.
+
+insert into Student_Course values(1,1001);
+insert into Student_Course values(1,1004);
+
+:--Write a SQL to enroll Raj in Spring and Angular.
+
+insert into Student_Course values(3,1002);
+insert into Student_Course values(3,1005);
+
+:--Write a SQL to enroll Suresh in Java, Hibernate and React.
+
+insert into Student_Course values(5,1001);
+insert into Student_Course values(5,1003);
+insert into Student_Course values(5,1004);
+
+:--Write a SQL to enroll Binay in React.
+
+insert into Student_Course values(4,1004);
+
+mysql> select * from Student_Course;
++------+------+
+| roll | cid  |
++------+------+
+|    2 | 1001 |
+|    2 | 1002 |
+|    1 | 1001 |
+|    1 | 1004 |
+|    3 | 1002 |
+|    3 | 1005 |
+|    5 | 1001 |
+|    5 | 1003 |
+|    5 | 1004 |
+|    4 | 1004 |
++------+------+
+
+
+
+
+
+
+
+
+
+

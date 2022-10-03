@@ -1,0 +1,159 @@
+Enter password: ***********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 53
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use sb101day4;
+Database changed
+mysql> select * from Student;
+Empty set (0.01 sec)
+
+mysql> insert into Student values(1,'Mukesh','delhi','0987654321','1998-10-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Student values(2,'Vijay','Pune','9876543210','1999-10-03');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Student values(3,'Saurabh','Mumbai','876543219','1999-11-04');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Student values(4,'Rakesh','Chennai','7654321098','2001-12-05');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student values(5,'Mahesh','Kolkatta','6543210987','2005-02-06');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student values(6,'Pratik','Bangalore','5432109876','2003-01-07');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Course;
+Empty set (0.01 sec)
+
+mysql> insert into Course values(4,'BCA',10000,'6month');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Course values(5,'BBA',12000,'8month');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Course values(6,'BCS',15000,'6month');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Course values(1,'BBA',13000,'4month');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Course values(2,'BBA',16000,'9month');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Course values(3,'BCA',18000,'3month');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Course;
++-----+-------+-------+----------+
+| cid | cname | fee   | duration |
++-----+-------+-------+----------+
+|   1 | BBA   | 13000 | 4month   |
+|   2 | BBA   | 16000 | 9month   |
+|   3 | BCA   | 18000 | 3month   |
+|   4 | BCA   | 10000 | 6month   |
+|   5 | BBA   | 12000 | 8month   |
+|   6 | BCS   | 15000 | 6month   |
++-----+-------+-------+----------+
+6 rows in set (0.00 sec)
+
+mysql> insert into Student_Cource values(1,6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Student_Cource values(2,5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student_Cource values(3,4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student_Cource values(4,3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student_Cource values(5,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student_Cource values(6,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Student_Cource;
++------+------+
+| roll | cid  |
++------+------+
+|    1 |    6 |
+|    2 |    5 |
+|    3 |    4 |
+|    4 |    3 |
+|    5 |    2 |
+|    6 |    1 |
++------+------+
+6 rows in set (0.00 sec)
+
+mysql> update Course set cname = 'JAVA' where cname = 'BBA';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update Course set cname = 'Spring' where cname = 'BCA';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> update Course set cname = 'SQL' where cname = 'BCS';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Course;
++-----+--------+-------+----------+
+| cid | cname  | fee   | duration |
++-----+--------+-------+----------+
+|   1 | JAVA   | 13000 | 4month   |
+|   2 | JAVA   | 16000 | 9month   |
+|   3 | Spring | 18000 | 3month   |
+|   4 | Spring | 10000 | 6month   |
+|   5 | JAVA   | 12000 | 8month   |
+|   6 | SQL    | 15000 | 6month   |
++-----+--------+-------+----------+
+6 rows in set (0.00 sec)
+
+mysql> alter table Student_Cource rename to Student_Course;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> update Course set cname = 'Hibernate' where cid = 2;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Course set cname = 'JavaScript' where cid = 4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select s.roll,s.name, s.address,s.mobile,s.date_of_birth,c.cname,c.fee,c.duration from Student s INNER JOIN Course c INNER JOIN Student_Course sc ON s.roll = sc.roll AND c.cid = sc.cid AND c.cname = 'Spring';
++------+--------+---------+------------+---------------+--------+-------+----------+
+| roll | name   | address | mobile     | date_of_birth | cname  | fee   | duration |
++------+--------+---------+------------+---------------+--------+-------+----------+
+|    4 | Rakesh | Chennai | 7654321098 | 2001-12-05    | Spring | 18000 | 3month   |
++------+--------+---------+------------+---------------+--------+-------+----------+
+1 row in set (0.01 sec)
+
+mysql> select s.roll,s.name, s.address,s.mobile,s.date_of_birth,c.cname,c.fee,c.duration from Student s INNER JOIN Course c INNER JOIN Student_Course sc ON s.roll = sc.roll AND c.cid = sc.cid;
++------+---------+-----------+------------+---------------+------------+-------+----------+
+| roll | name    | address   | mobile     | date_of_birth | cname      | fee   | duration |
++------+---------+-----------+------------+---------------+------------+-------+----------+
+|    6 | Pratik  | Bangalore | 5432109876 | 2003-01-07    | JAVA       | 13000 | 4month   |
+|    5 | Mahesh  | Kolkatta  | 6543210987 | 2005-02-06    | Hibernate  | 16000 | 9month   |
+|    4 | Rakesh  | Chennai   | 7654321098 | 2001-12-05    | Spring     | 18000 | 3month   |
+|    3 | Saurabh | Mumbai    | 876543219  | 1999-11-04    | JavaScript | 10000 | 6month   |
+|    2 | Vijay   | Pune      | 9876543210 | 1999-10-03    | JAVA       | 12000 | 8month   |
+|    1 | Mukesh  | delhi     | 0987654321 | 1998-10-02    | SQL        | 15000 | 6month   |
++------+---------+-----------+------------+---------------+------------+-------+----------+
+6 rows in set (0.00 sec)
+
+mysql>

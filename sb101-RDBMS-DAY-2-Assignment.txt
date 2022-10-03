@@ -1,0 +1,268 @@
+mysql> select email, count(email) order_count from customers INNER JOIN orders ON customers.customer_id = orders.customer_id where order_placed_date BETWEEN '2016-01-01' AND '2016-12-31' group by email;
++--------------+-------------+
+| email        | order_count |
++--------------+-------------+
+| abc@mail.com |           2 |
+| efg@mail.com |           1 |
++--------------+-------------+
+2 rows in set (0.00 sec)
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sb101day1          |
+| sb101day2          |
+| sb101db            |
+| sys                |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> drop database sb101day2;
+Query OK, 2 rows affected (0.09 sec)
+
+mysql> create database ORG;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use ORG;
+Database changed
+
+mysql> create table Worker(
+    -> WORKER_ID int PRIMARY KEY,
+    -> FIRST_NAME varchar(25),
+    -> LAST_NAME varchar(25),
+    -> SALARY int,
+    -> JOINING_DATE DATETIME,
+    -> DEPARTMENT varchar(25)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc worker;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| WORKER_ID    | int         | NO   | PRI | NULL    |       |
+| FIRST_NAME   | varchar(25) | YES  |     | NULL    |       |
+| LAST_NAME    | varchar(25) | YES  |     | NULL    |       |
+| SALARY       | int         | YES  |     | NULL    |       |
+| JOINING_DATE | datetime    | YES  |     | NULL    |       |
+| DEPARTMENT   | varchar(25) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> insert into worker values(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into worker values(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into worker values(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into worker values(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into worker values(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into worker values(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into worker values(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from worker;
++-----------+------------+-----------+--------+---------------------+------------+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-----------+------------+-----------+--------+---------------------+------------+
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         2 | Niharika   | Verma     |  80000 | 2014-06-11 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         7 | Satish     | Kumar     |  75000 | 2014-01-20 09:00:00 | Account    |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> create table Bonus(
+    -> WORKER_REF_ID int,
+    -> BONUS_AMOUNT int,
+    -> BONUS_DATE DATETIME,
+    -> FOREIGN KEY (WORKER_REF_ID) REFERENCES Worker(WORKER_ID) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Bonus;
++---------------+----------+------+-----+---------+-------+
+| Field         | Type     | Null | Key | Default | Extra |
++---------------+----------+------+-----+---------+-------+
+| WORKER_REF_ID | int      | YES  | MUL | NULL    |       |
+| BONUS_AMOUNT  | int      | YES  |     | NULL    |       |
+| BONUS_DATE    | datetime | YES  |     | NULL    |       |
++---------------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Bonus values(001, 5000, '16-02-20');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Bonus values(002, 3000, '16-06-11');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Bonus values(003, 4000, '16-02-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Bonus values(001, 4500, '16-02-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Bonus values(002, 3500, '16-06-11');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Bonus;
++---------------+--------------+---------------------+
+| WORKER_REF_ID | BONUS_AMOUNT | BONUS_DATE          |
++---------------+--------------+---------------------+
+|             1 |         5000 | 2016-02-20 00:00:00 |
+|             2 |         3000 | 2016-06-11 00:00:00 |
+|             3 |         4000 | 2016-02-20 00:00:00 |
+|             1 |         4500 | 2016-02-20 00:00:00 |
+|             2 |         3500 | 2016-06-11 00:00:00 |
++---------------+--------------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> create table Title (
+    -> WORKER_REF_ID INT,
+    -> WORKER_TITLE VARCHAR(25),
+    -> AFFECTED_FROM DATETIME,
+    -> FOREIGN KEY (WORKER_REF_ID) REFERENCES Worker(WORKER_ID) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Title;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| WORKER_REF_ID | int         | YES  | MUL | NULL    |       |
+| WORKER_TITLE  | varchar(25) | YES  |     | NULL    |       |
+| AFFECTED_FROM | datetime    | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Title values(001, 'Manager', '2016-02-20 00:00:00');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Title values(002, 'Executive', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Title values(008, 'Executive', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Title values(005, 'Manager', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Title values(004, 'Asst. Manager', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Title values(007, 'Executive', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Title values(006, 'Lead', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Title values(003, 'Lead', '2016-06-11 00:00:00');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Title;
++---------------+---------------+---------------------+
+| WORKER_REF_ID | WORKER_TITLE  | AFFECTED_FROM       |
++---------------+---------------+---------------------+
+|             1 | Manager       | 2016-02-20 00:00:00 |
+|             2 | Executive     | 2016-06-11 00:00:00 |
+|             8 | Executive     | 2016-06-11 00:00:00 |
+|             5 | Manager       | 2016-06-11 00:00:00 |
+|             4 | Asst. Manager | 2016-06-11 00:00:00 |
+|             7 | Executive     | 2016-06-11 00:00:00 |
+|             6 | Lead          | 2016-06-11 00:00:00 |
+|             3 | Lead          | 2016-06-11 00:00:00 |
++---------------+---------------+---------------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from worker group by SALARY order by  SALARY desc limit 1,1;
++-----------+------------+-----------+--------+---------------------+------------+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-----------+------------+-----------+--------+---------------------+------------+
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
++-----------+------------+-----------+--------+---------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select SALARY from worker group by SALARY order by  SALARY desc limit 1,1;
++--------+
+| SALARY |
++--------+
+| 300000 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select SALARY from worker group by SALARY order by SALARY desc limit 0,5;
++--------+
+| SALARY |
++--------+
+| 500000 |
+| 300000 |
+| 200000 |
+| 100000 |
+|  90000 |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from worker group by SALARY order by SALARY desc limit 0,5;
++-----------+------------+-----------+--------+---------------------+------------+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-----------+------------+-----------+--------+---------------------+------------+
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         3 | Vishal     | Singhal   | 300000 | 2014-02-20 09:00:00 | HR         |
+|         6 | Vipul      | Diwan     | 200000 | 2014-06-11 09:00:00 | Account    |
+|         1 | Monika     | Arora     | 100000 | 2014-02-20 09:00:00 | HR         |
+|         8 | Geetika    | Chauhan   |  90000 | 2014-04-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+5 rows in set (0.00 sec)
+
+
+mysql> select DEPARTMENT,count(DEPARTMENT) from worker group by DEPARTMENT order by DEPARTMENT desc;
++------------+-------------------+
+| DEPARTMENT | count(DEPARTMENT) |
++------------+-------------------+
+| HR         |                 2 |
+| Admin      |                 4 |
+| Account    |                 2 |
++------------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> select DEPARTMENT,count(DEPARTMENT) no_of_workers from worker group by DEPARTMENT order by DEPARTMENT desc;
++------------+---------------+
+| DEPARTMENT | no_of_workers |
++------------+---------------+
+| HR         |             2 |
+| Admin      |             4 |
+| Account    |             2 |
++------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select  *  from  worker
+    -> where SALARY in (select SALARY from worker
+    -> group by SALARY
+    -> having count(1)>1);
++-----------+------------+-----------+--------+---------------------+------------+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE        | DEPARTMENT |
++-----------+------------+-----------+--------+---------------------+------------+
+|         4 | Amitabh    | Singh     | 500000 | 2014-02-20 09:00:00 | Admin      |
+|         5 | Vivek      | Bhati     | 500000 | 2014-06-11 09:00:00 | Admin      |
++-----------+------------+-----------+--------+---------------------+------------+
+2 rows in set (0.00 sec)
+
+mysql>

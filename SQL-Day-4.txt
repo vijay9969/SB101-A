@@ -1,0 +1,158 @@
+Enter password: ***********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 54
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use sb101day4
+Database changed
+mysql> create table Faculty(
+    -> FacultyID int primary key,
+    -> Name varchar(12),
+    -> Department varchar(12),
+    -> Gender varchar(1),
+    -> Salary int,
+    -> Working_hours int,
+    -> Vacation_hours int
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into Faculty values(001, 'Aakash','CS','M',50000,45,null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Faculty values(002, 'Sahil','EC','M',25000,50,null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Faculty values(003, 'John','HSS','M',100000,60,null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Faculty values(004, 'Shelley','CS','F',75000,80,null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Faculty values(005, 'Anannya','CS','F',45000,100,null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Faculty values(006, 'Sia','HSS','F',60000,40,null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> alter table Faculty change Department Department varchar(30);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update Faculty set Department = 'Computer Science' where Department = 'CS';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update Faculty set Department = 'Electronics and Communication' where Department = 'EC';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Faculty set Department = 'Humanities and Social Sciences' where Department = 'HSS';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Faculty;
++-----------+---------+--------------------------------+--------+--------+---------------+----------------+
+| FacultyID | Name    | Department                     | Gender | Salary | Working_hours | Vacation_hours |
++-----------+---------+--------------------------------+--------+--------+---------------+----------------+
+|         1 | Aakash  | Computer Science               | M      |  50000 |            45 |           NULL |
+|         2 | Sahil   | Electronics and Communication  | M      |  25000 |            50 |           NULL |
+|         3 | John    | Humanities and Social Sciences | M      | 100000 |            60 |           NULL |
+|         4 | Shelley | Computer Science               | F      |  75000 |            80 |           NULL |
+|         5 | Anannya | Computer Science               | F      |  45000 |           100 |           NULL |
+|         6 | Sia     | Humanities and Social Sciences | F      |  60000 |            40 |           NULL |
++-----------+---------+--------------------------------+--------+--------+---------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> update Faculty set Vacation_hours = NULL where Working_hours <= 50;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 3  Changed: 0  Warnings: 0
+
+mysql> update Faculty set Vacation_hours = '20' where Working_hours <= 80;
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> update Faculty set Vacation_hours = '40' where Working_hours <= 120;
+Query OK, 6 rows affected (0.00 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> select * from Faculty;
++-----------+---------+----------------------------------------+--------+--------+---------------+----------------+
+| FacultyID | Name    | DepartmeVacation_hoursVacation_hoursnt | Gender | Salary | Working_hours | Vacation_hours |
++-----------+---------+----------------------------------------+--------+--------+---------------+----------------+
+|         1 | Aakash  | Computer Science                       | M      |  50000 |            45 |             40 |
+|         2 | Sahil   | Electronics and Communication          | M      |  25000 |            50 |             40 |
+|         3 | John    | Humanities and Social Sciences         | M      | 100000 |            60 |             40 |
+|         4 | Shelley | Computer Science                       | F      |  75000 |            80 |             40 |
+|         5 | Anannya | Computer Science                       | F      |  45000 |           100 |             40 |
+|         6 | Sia     | Humanities and Social Sciences         | F      |  60000 |            40 |             40 |
++-----------+---------+----------------------------------------+--------+--------+---------------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> update Faculty set Vacation_hours = NULL where Working_hours <= 50;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update Faculty set Vacation_hours = '20' where Working_hours >= 80;
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> update Faculty set Vacation_hours = '40' where Working_hours >= 120;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from Faculty;
++-----------+---------+----------------------------------------+--------+--------+---------------+----------------+
+| FacultyID | Name    | DepartmeVacation_hoursVacation_hoursnt | Gender | Salary | Working_hours | Vacation_hours |
++-----------+---------+----------------------------------------+--------+--------+---------------+----------------+
+|         1 | Aakash  | Computer Science                       | M      |  50000 |            45 |           NULL |
+|         2 | Sahil   | Electronics and Communication          | M      |  25000 |            50 |           NULL |
+|         3 | John    | Humanities and Social Sciences         | M      | 100000 |            60 |             40 |
+|         4 | Shelley | Computer Science                       | F      |  75000 |            80 |             20 |
+|         5 | Anannya | Computer Science                       | F      |  45000 |           100 |             20 |
+|         6 | Sia     | Humanities and Social Sciences         | F      |  60000 |            40 |           NULL |
++-----------+---------+----------------------------------------+--------+--------+---------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> alter table Faculty change Vacation_hours Vacation_hoursnt varchar(30);
+Query OK, 6 rows affected (0.04 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from Faculty;
++-----------+---------+----------------------------------------+--------+--------+---------------+------------------+
+| FacultyID | Name    | DepartmeVacation_hoursVacation_hoursnt | Gender | Salary | Working_hours | Vacation_hoursnt |
++-----------+---------+----------------------------------------+--------+--------+---------------+------------------+
+|         1 | Aakash  | Computer Science                       | M      |  50000 |            45 | NULL             |
+|         2 | Sahil   | Electronics and Communication          | M      |  25000 |            50 | NULL             |
+|         3 | John    | Humanities and Social Sciences         | M      | 100000 |            60 | 40               |
+|         4 | Shelley | Computer Science                       | F      |  75000 |            80 | 20               |
+|         5 | Anannya | Computer Science                       | F      |  45000 |           100 | 20               |
+|         6 | Sia     | Humanities and Social Sciences         | F      |  60000 |            40 | NULL             |
++-----------+---------+----------------------------------------+--------+--------+---------------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> update Faculty set Vacation_hours = 'not allowed' where Vacation_hours IS NULL;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from Faculty;
++-----------+---------+--------------------------------+--------+--------+---------------+----------------+
+| FacultyID | Name    | Department                     | Gender | Salary | Working_hours | Vacation_hours |
++-----------+---------+--------------------------------+--------+--------+---------------+----------------+
+|         1 | Aakash  | Computer Science               | M      |  50000 |            45 | not allowed    |
+|         2 | Sahil   | Electronics and Communication  | M      |  25000 |            50 | not allowed    |
+|         3 | John    | Humanities and Social Sciences | M      | 100000 |            60 | 40             |
+|         4 | Shelley | Computer Science               | F      |  75000 |            80 | 20             |
+|         5 | Anannya | Computer Science               | F      |  45000 |           100 | 20             |
+|         6 | Sia     | Humanities and Social Sciences | F      |  60000 |            40 | not allowed    |
++-----------+---------+--------------------------------+--------+--------+---------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql>
